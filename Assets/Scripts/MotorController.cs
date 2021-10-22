@@ -8,7 +8,7 @@ public class MotorController : MonoBehaviour
     [SerializeField] float forceLimit = 10f;
     [SerializeField] float damping = 2f;
 
-    private static readonly float ToleranceLimit = 0.001f;
+    private static readonly float Tolerance = 0.001f;
 
     void Start()
     {
@@ -18,11 +18,10 @@ public class MotorController : MonoBehaviour
     {
         float dx = Input.GetAxis ("Horizontal");
         float dy = Input.GetAxis ("Vertical");
-        if (Mathf.Abs(dy) >= ToleranceLimit || Mathf.Abs(dx) >= ToleranceLimit)
+        if (Mathf.Abs(dy) >= Tolerance || Mathf.Abs(dx) >= Tolerance)
         {
-            float tractionGain = 1f - Mathf.Clamp(Mathf.Abs(dx), 0f, 1f);
-            Drive(wheelRight, (-dy * tractionGain + dx) * speedScale);
-            Drive(wheelLeft, (-dy * tractionGain - dx) * speedScale);
+            Drive(wheelRight, (-dy + dx) * speedScale);
+            Drive(wheelLeft, (-dy - dx) * speedScale);
         }
         else
         {
